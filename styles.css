@@ -81,7 +81,6 @@ h1 { font-size: 24px; margin: 0; letter-spacing: -0.01em; font-weight: 800; }
 .card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.08), 0 24px 60px rgba(10,132,255,.08); }
 
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.row > div { min-width: 0; }
 @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
 
 label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
@@ -133,13 +132,8 @@ html[data-theme="dark"] .switch input[type="checkbox"]::after { background: line
 .segmented:has(button:disabled) { opacity: .7; }
 @supports not(selector(:has(*))) { /* graceful fallback */ } 
 
-/* mobile-only helpers */
-.mobile-only { display: none; }
-@media (max-width: 640px) {
-	.segmented { display: none; }
-	.mobile-only { display: block; }
-}
-
+.topbar .btns { display: flex; gap: 8px; align-items: center; }
+@media (max-width: 640px) { .topbar .btns { position: absolute; right: 12px; } }
 
 @media (max-width: 640px) {
 	.container { max-width: 100%; margin: 20px auto; padding: 0 12px; }
@@ -148,7 +142,7 @@ html[data-theme="dark"] .switch input[type="checkbox"]::after { background: line
 	.card { border-radius: 18px; padding: 14px; }
 	.row { grid-template-columns: 1fr; gap: 10px; }
 	label { font-size: 12px; }
-	input[type="text"], input[type="date"], input[type="time"], select, textarea { font-size: 16px; padding: 12px 14px; min-width: 0; }
+	input[type="text"], input[type="date"], input[type="time"], select, textarea { font-size: 16px; padding: 12px 14px; }
 	textarea { min-height: 120px; }
 	.actions { gap: 8px; }
 	.actions .btn, .actions a.btn-link { width: 100%; text-align: center; }

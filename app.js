@@ -116,14 +116,6 @@
 	}
 
 	function initDurationControl() {
-		const select = document.getElementById('durationSelect');
-		if (select) {
-			select.addEventListener('change', () => {
-				document.getElementById('duration').value = select.value;
-				syncDurationUI();
-			});
-		}
-
 		const group = document.getElementById('durationCtrl');
 		if (!group) return;
 		group.addEventListener('click', (e) => {
@@ -137,12 +129,10 @@
 	}
 
 	function syncDurationUI() {
-		const select = document.getElementById('durationSelect');
 		const hidden = document.getElementById('duration');
 		const group = document.getElementById('durationCtrl');
 		if (!hidden || !group) return;
 		const value = String(parseInt(hidden.value, 10) || 30);
-		if (select) select.value = value;
 		let matched = false;
 		group.querySelectorAll('button[data-min]').forEach(b => {
 			const isActive = b.getAttribute('data-min') === value;
@@ -281,7 +271,57 @@
 		window.addEventListener('mouseleave', () => { if (card) card.style.transform = ''; });
 	}
 
-	// Gyro parallax removed for mobile per request
+	// Gyro parallax removed per mobile UX decision
+	function initParallaxGyro() {
+		const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (reduce) return () => {};
+		const card = document.getElementById('card');
+		let enabled = false;
+		let handler = null;
+		function onOrient(e) {
+			if (!enabled || !card) return;
+			const beta = e.beta || 0;  // x tilt [-180..180]
+			const gamma = e.gamma || 0; // y tilt [-90..90]
+			const x = Math.max(-1, Math.min(1, gamma / 45));
+			const y = Math.max(-1, Math.min(1, beta / 45));
+			card.style.transform = `perspective(1000px) rotateX(${(-y*4).toFixed(2)}deg) rotateY(${(x*4).toFixed(2)}deg)`;
+		}
+		async function requestPermissionIfNeeded() {
+			const AnyOrientation = window.DeviceOrientationEvent || window.OrientationEvent;
+			if (!AnyOrientation) return false;
+			if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+				try {
+					const res = await DeviceOrientationEvent.requestPermission();
+					return res === 'granted';
+				} catch (e) { return false; }
+			}
+			return true;
+		}
+		async function enable() {
+			if (enabled) return true;
+			const ok = await requestPermissionIfNeeded();
+			if (!ok) return false;
+			enabled = true;
+			handler = onOrient;
+			window.addEventListener('deviceorientation', handler);
+			try { localStorage.setItem('gyro', '1'); } catch (e) {}
+			return true;
+		}
+		function disable() {
+			enabled = false;
+			if (handler) window.removeEventListener('deviceorientation', handler);
+			if (card) card.style.transform = '';
+			try { localStorage.setItem('gyro', '0'); } catch (e) {}
+		}
+		function isSmall() { return window.matchMedia && window.matchMedia('(max-width: 640px)').matches; }
+		function initFromStorage() {
+			let want = '0';
+			try { want = localStorage.getItem('gyro') || '0'; } catch (e) {}
+			if (want === '1' && isSmall()) enable();
+		}
+		initFromStorage();
+		return { enable, disable };
+	}
 
 	document.addEventListener('DOMContentLoaded', () => {
 		if ('serviceWorker' in navigator) {
