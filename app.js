@@ -116,6 +116,14 @@
 	}
 
 	function initDurationControl() {
+		const select = document.getElementById('durationSelect');
+		if (select) {
+			select.addEventListener('change', () => {
+				document.getElementById('duration').value = select.value;
+				syncDurationUI();
+			});
+		}
+
 		const group = document.getElementById('durationCtrl');
 		if (!group) return;
 		group.addEventListener('click', (e) => {
@@ -129,10 +137,12 @@
 	}
 
 	function syncDurationUI() {
+		const select = document.getElementById('durationSelect');
 		const hidden = document.getElementById('duration');
 		const group = document.getElementById('durationCtrl');
 		if (!hidden || !group) return;
 		const value = String(parseInt(hidden.value, 10) || 30);
+		if (select) select.value = value;
 		let matched = false;
 		group.querySelectorAll('button[data-min]').forEach(b => {
 			const isActive = b.getAttribute('data-min') === value;

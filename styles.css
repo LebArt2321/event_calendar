@@ -133,6 +133,12 @@ html[data-theme="dark"] .switch input[type="checkbox"]::after { background: line
 .segmented:has(button:disabled) { opacity: .7; }
 @supports not(selector(:has(*))) { /* graceful fallback */ } 
 
+/* mobile-only helpers */
+.mobile-only { display: none; }
+@media (max-width: 640px) {
+	.segmented { display: none; }
+	.mobile-only { display: block; }
+}
 
 
 @media (max-width: 640px) {
