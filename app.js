@@ -251,7 +251,8 @@
 
 	function initParallax() {
 		const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		if (reduce) return;
+		const smallScreen = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+		if (reduce || smallScreen) return;
 		let raf = null;
 		const root = document.documentElement;
 		const card = document.getElementById('card');
