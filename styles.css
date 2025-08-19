@@ -47,6 +47,12 @@ html[data-theme="dark"] {
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }
+html, body {
+	transition: background-color .3s ease, color .3s ease;
+}
+html {
+	background: var(--bg);
+}
 body {
 	font-family: ui-rounded, -apple-system-rounded, -apple-system, system-ui, Segoe UI, Roboto, Arial, sans-serif;
 	margin: 0;
@@ -132,17 +138,20 @@ html[data-theme="dark"] .switch input[type="checkbox"]::after { background: line
 .segmented:has(button:disabled) { opacity: .7; }
 @supports not(selector(:has(*))) { /* graceful fallback */ } 
 
-.topbar .btns { display: flex; gap: 8px; align-items: center; }
-@media (max-width: 640px) { .topbar .btns { position: absolute; right: 12px; } }
+	.topbar .btns { display: flex; gap: 8px; align-items: center; }
+	@media (max-width: 640px) { .topbar .btns { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); } }
+
 
 @media (max-width: 640px) {
 	.container { max-width: 100%; margin: 20px auto; padding: 0 12px; }
-	.topbar { justify-content: center; }
+	.topbar { position: relative; justify-content: center; padding-right: 60px; margin: 20px 0; }
 	h1 { font-size: 20px; }
-	.card { border-radius: 18px; padding: 14px; }
+	.card { border-radius: 18px; padding: 14px; overflow: hidden; }
 	.row { grid-template-columns: 1fr; gap: 10px; }
+	.row > * { min-width: 0; width: 100%; max-width: 100%; }
 	label { font-size: 12px; }
-	input[type="text"], input[type="date"], input[type="time"], select, textarea { font-size: 16px; padding: 12px 14px; }
+	input[type="text"], select, textarea { font-size: 16px; padding: 12px 14px; max-width: 100%; overflow: hidden; box-sizing: border-box; width: 100%; }
+    input[type="date"], input[type="time"] { font-size: 16px; padding: 12px 14px; max-width: 91%; overflow: hidden; box-sizing: border-box; width: 100%; }
 	textarea { min-height: 120px; }
 	.actions { gap: 8px; }
 	.actions .btn, .actions a.btn-link { width: 100%; text-align: center; }

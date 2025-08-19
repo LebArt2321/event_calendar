@@ -269,6 +269,10 @@
 		}
 		window.addEventListener('pointermove', onMove);
 		window.addEventListener('mouseleave', () => { if (card) card.style.transform = ''; });
+		window.addEventListener('resize', () => {
+			const smallScreen = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+			if (smallScreen && card) card.style.transform = '';
+		});
 	}
 
 	// Gyro parallax removed per mobile UX decision
