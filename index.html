@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="color-scheme" content="light dark">
+	<title>Событие — генератор ссылки</title>
+	<link rel="stylesheet" href="./styles.css">
+	<link rel="manifest" href="./manifest.webmanifest">
+	<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+	<meta name="theme-color" content="#0a84ff">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<link rel="apple-touch-icon" href="./favicon.svg">
+</head>
+<body>
+	<div class="bg" aria-hidden="true">
+		<div class="blob blob1"></div>
+		<div class="blob blob2"></div>
+		<div class="blob blob3"></div>
+	</div>
+	<div class="container">
+		<div class="topbar">
+			<h1>Событие — генератор ссылки</h1>
+			<button class="icon-btn" id="themeBtn" title="Переключить тему">🌓</button>
+		</div>
+		<div class="card" id="card">
+			<div class="row">
+				<div>
+					<label for="title">Название события *</label>
+					<input id="title" type="text" placeholder="Например, День рождения" required>
+				</div>
+				<div class="switch">
+					<input id="allday" type="checkbox"> <label for="allday">Весь день</label>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 12px;">
+				<div>
+					<label for="date">Дата</label>
+					<input id="date" type="date">
+				</div>
+				<div>
+					<label for="time">Время начала</label>
+					<input id="time" type="time">
+				</div>
+			</div>
+			<div class="row" style="margin-top: 12px;">
+				<div>
+					<label for="duration">Длительность</label>
+					<input id="duration" type="hidden" value="30">
+					<div class="segmented" id="durationCtrl" role="group" aria-label="Длительность">
+						<button type="button" data-min="15">15</button>
+						<button type="button" data-min="30" class="active">30</button>
+						<button type="button" data-min="45">45</button>
+						<button type="button" data-min="60">1ч</button>
+						<button type="button" data-min="90">1.5ч</button>
+						<button type="button" data-min="120">2ч</button>
+						<button type="button" data-min="180">3ч</button>
+						<button type="button" data-min="240">4ч</button>
+					</div>
+				</div>
+				<div>
+					<label for="location">Место</label>
+					<input id="location" type="text" placeholder="Адрес или ссылка">
+				</div>
+			</div>
+			<div style="margin-top: 12px;">
+				<label for="notes">Описание/заметки</label>
+				<textarea id="notes" placeholder="Короткое описание, ссылки и т.д."></textarea>
+			</div>
+			<div class="actions">
+				<button class="btn" id="generateBtn">Сгенерировать ссылки</button>
+				<a id="icsDownload" class="btn-link hidden" download="event.ics">Скачать .ics (Apple/Outlook)</a>
+				<a id="googleLink" class="btn-link hidden" target="_blank" rel="noopener">Открыть в Google Calendar</a>
+				<a id="outlookLink" class="btn-link hidden" target="_blank" rel="noopener">Открыть в Outlook Web</a>
+				<button class="btn secondary" id="copyShareBtn" type="button">Скопировать ссылку для добавления</button>
+			</div>
+			<div class="muted">
+				Для iPhone: лучший способ — скачать .ics и открыть. Либо отправьте «ссылку для добавления»: у друга откроется страница и сразу предложит добавить событие.
+			</div>
+			<div id="result" class="result hidden">
+				Ссылки сгенерированы. Можно сразу делиться или скачать .ics.
+			</div>
+		</div>
+	</div>
+	<script src="./app.js" defer></script>
+</body>
+</html> 
