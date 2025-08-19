@@ -163,15 +163,15 @@
                 const end = toUtcIcsDateTime(data.endDate);
                 dates = `${start}/${end}`;
             }
-            return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${dates}&details=${details}&location=${location}`;
+            const tz = encodeURIComponent((Intl.DateTimeFormat().resolvedOptions().timeZone) || 'UTC');
+            return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${dates}&details=${details}&location=${location}&ctz=${tz}`;
         }
         function buildOutlookUrl(data) {
             const subject = encodeURIComponent(data.title);
             const body = encodeURIComponent(data.notes || '');
             const location = encodeURIComponent(data.location || '');
-            const toIsoLocal = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString();
-            const startdt = encodeURIComponent(toIsoLocal(data.startDate));
-            const enddt = encodeURIComponent(toIsoLocal(data.endDate));
+            const startdt = encodeURIComponent(data.startDate.toISOString());
+            const enddt = encodeURIComponent(data.endDate.toISOString());
             return `https://outlook.live.com/calendar/0/deeplink/compose?subject=${subject}&body=${body}&location=${location}&startdt=${startdt}&enddt=${enddt}`;
         }
         function setDefaults() {
