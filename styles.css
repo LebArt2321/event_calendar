@@ -132,8 +132,7 @@ html[data-theme="dark"] .switch input[type="checkbox"]::after { background: line
 .segmented:has(button:disabled) { opacity: .7; }
 @supports not(selector(:has(*))) { /* graceful fallback */ } 
 
-.topbar .btns { display: flex; gap: 8px; align-items: center; }
-@media (max-width: 640px) { .topbar .btns { position: absolute; right: 12px; } }
+
 
 @media (max-width: 640px) {
 	.container { max-width: 100%; margin: 20px auto; padding: 0 12px; }
